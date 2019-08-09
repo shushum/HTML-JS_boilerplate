@@ -1,3 +1,112 @@
-div {
-  color: blue;
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  background: lightskyblue;
+  padding: 0 50px;
+}
+
+.header .title {
+  color: white;
+}
+
+.searchBar {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid white;
+}
+
+.mainArea {
+  background: white;
+  padding: 30px 55px;
+}
+
+.addNewTask {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.addButton {
+  background: white;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 1.1em;
+}
+
+.addNewTask > input[type=text] {
+  flex: 1;
+  margin-right: 10px;
+  border: none;
+  border-bottom: 1px solid grey;
+  font-size: 1.1em;
+}
+
+.listHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.clearButton {
+  border: none;
+  text-decoration: underline;
+  background: transparent;
+  cursor: pointer;
+}
+
+.listFooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.taskList {
+  list-style: none;
+  padding: 0;
+}
+
+.task {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  border: 1px solid gray;
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: 15px;
+}
+
+.datesWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100px;
+}
+
+.description {
+  flex: 1;
+}
+
+.task > input[type=checkbox] {
+  margin-right: 30px;
+}
+
+.date {
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+.creationDate {
+  color: gray;
+}
+
+.sortSelect {
+  border: none;
+  background: transparent;
+  border-bottom: 1px solid gray;
+  font-size: 1.2em;
+  width: 250px;
 }

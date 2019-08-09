@@ -5,6 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   </head>
   <body>
-    <div>Hello, world</div>
+    <header class="header">
+      <h1 class="title">Todo List</h1>
+      <input class="searchBar" id="searchBar" type="text" placeholder="Search..."/>
+    </header>
+    <main class="mainArea">
+      <form class="addNewTask" id="addNewTask">
+        <input id="newTaskDescription" type="text" placeholder="New task...">
+        <button class="addButton" id="addTask" type="submit">ADD</button>
+      </form>
+      <section class="listWrapper" id="openTasks">
+        <div class="listHeader">
+          <h2 class="listTitle">Open</h2>
+          <select
+            class="sortSelect" 
+            id="openTasksSortings" 
+            name="openTasksSortings">
+          </select>
+        </div>
+        <ul class="taskList" id="openTasksList"></ul>
+        <div class="listFooter">
+          <button class="clearButton" id="clearOpenList">Clear "Open" list</button>
+        </div>
+      </section>
+      <section class="listWrapper" id="resolvedTasks">
+        <div class="listHeader">
+          <h2 class="listTitle">Done</h2>
+          <select 
+            class="sortSelect" 
+            id="resolvedTasksSortings" 
+            name="resolvedTasksSortings">
+          </select>
+        </div>
+        <ul class="taskList" id="resolvedTasksList"></ul>
+        <div class="listFooter">
+          <button class="clearButton" id="clearResolvedList">Clear "Done" list</button>
+        </div>
+      </section>
+    </main>
   </body>
 </html>
