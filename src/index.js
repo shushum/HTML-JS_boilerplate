@@ -2,6 +2,9 @@ import './style.css';
 import Task from './entities/task';
 import TaskList, { SORTING_TYPE } from './entities/taskList';
 
+const openTasksStorageId = 'openTasks';
+const resolvedTasksStorageId = 'resolvedTasks';
+
 const openedTasksSection = document.getElementById('openTasks');
 const resolvedTasksSection = document.getElementById('resolvedTasks');
 const addTaskForm = document.getElementById('addNewTask');
@@ -18,35 +21,8 @@ const mainArea = document.getElementById('mainArea');
 const openedTasksList = document.getElementById('openTasksList');
 const resolvedTasksList = document.getElementById('resolvedTasksList');
 
-const openTasksStoraged = 'openTasks';
-const resolvedTasksStoraged = 'resolvedTasks';
-
-const openTasks = new TaskList({
-  tasks: [
-    new Task({ description: '1 a' }),
-    new Task({ description: '2' }),
-    new Task({ description: '3' }),
-  ],
-  availableSortingTypes: [
-    SORTING_TYPE.DESCRIPTION_ASC,
-    SORTING_TYPE.DESCRIPTION_DESC,
-    SORTING_TYPE.CREATION_DATE_ASC,
-    SORTING_TYPE.CREATION_DATE_DESC,
-  ],
-});
-
-const resolvedTasks = new TaskList({
-  tasks: [
-    new Task({ description: 'task a' }),
-    new Task({ description: 'task b' }),
-  ],
-  availableSortingTypes: [
-    SORTING_TYPE.DESCRIPTION_ASC,
-    SORTING_TYPE.DESCRIPTION_DESC,
-    SORTING_TYPE.RESOLUTION_DATE_ASC,
-    SORTING_TYPE.RESOLUTION_DATE_DESC,
-  ],
-});
+const openTasks = TaskList.getFromStorage(openTasksStorageId);
+const resolvedTasks = TaskList.getFromStorage(resolvedTasksStorageId);
 
 TaskList.renderSortings(openTasks, openedTasksSection);
 TaskList.renderTasks(openTasks, openedTasksSection);
@@ -63,6 +39,7 @@ const addNewTask = event => {
 
   openTasks.addTask(newTask);
   openTasks.sortList(openTasks.selectedSortingType);
+  openTasks.saveToStorage();
   TaskList.renderTasks(openTasks, openedTasksSection);
 };
 
@@ -70,6 +47,7 @@ addTaskForm.addEventListener('submit', addNewTask);
 
 const clearTaskList = (listToClear, sectionToWipe) => event => {
   listToClear.wipeList();
+  listToClear.saveToStorage();
   TaskList.renderTasks(listToClear, sectionToWipe);
 };
 
@@ -87,6 +65,7 @@ const sortTaskList = (listToSort, sectionToSort) => event => {
   const newSortingType =
     listToSort.availableSortingTypes[event.target.selectedIndex];
   listToSort.sortList(newSortingType);
+  listToSort.saveToStorage();
   TaskList.renderTasks(listToSort, sectionToSort);
 };
 
@@ -150,8 +129,10 @@ const toggleTask = event => {
   }
 
   openTasks.sortList(openTasks.selectedSortingType);
+  openTasks.saveToStorage();
   TaskList.renderTasks(openTasks, openedTasksSection);
   resolvedTasks.sortList(resolvedTasks.selectedSortingType);
+  resolvedTasks.saveToStorage();
   TaskList.renderTasks(resolvedTasks, resolvedTasksSection);
 };
 
@@ -209,7 +190,8 @@ const approveEdit = (taskList, editSection) => event => {
 
   taskRow.removeChild(event.target);
 
-  openTasks.sortList(taskList, editSection);
+  taskList.sortList(taskList.selectedSortingType);
+  taskList.saveToStorage();
   TaskList.renderTasks(taskList, editSection);
 };
 
@@ -257,6 +239,7 @@ const deleteTask = (taskList, deleteSection) => event => {
 
   const taskId = event.target.parentElement['data-id'];
   taskList.removeTask(taskId);
+  taskList.saveToStorage();
   TaskList.renderTasks(taskList, deleteSection);
 };
 

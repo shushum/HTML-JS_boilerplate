@@ -2,11 +2,13 @@ import Task from './task';
 
 class TaskList {
   constructor({
+    storageId,
     tasks = [],
     selectedSortingType = SORTING_TYPE.DESCRIPTION_ASC,
     availableSortingTypes,
   }) {
-    this.tasks = tasks;
+    this.storageId = storageId;
+    this.tasks = tasks.map(task => new Task(task));
     this.selectedSortingType = selectedSortingType;
     this.availableSortingTypes = availableSortingTypes;
   }
@@ -36,6 +38,37 @@ class TaskList {
 
   filterList = searchTerm => {
     return this.tasks.filter(task => task.description.includes(searchTerm));
+  };
+
+  saveToStorage = () => {
+    window.localStorage.setItem(this.storageId, JSON.stringify(this));
+  };
+
+  static getFromStorage = storageListId => {
+    const storagedList = JSON.parse(window.localStorage.getItem(storageListId));
+    if (storagedList) {
+      return new TaskList(storagedList);
+    }
+
+    const availableSortingTypes =
+      storageListId === 'openTasks'
+        ? [
+            SORTING_TYPE.DESCRIPTION_ASC,
+            SORTING_TYPE.DESCRIPTION_DESC,
+            SORTING_TYPE.CREATION_DATE_ASC,
+            SORTING_TYPE.CREATION_DATE_DESC,
+          ]
+        : [
+            SORTING_TYPE.DESCRIPTION_ASC,
+            SORTING_TYPE.DESCRIPTION_DESC,
+            SORTING_TYPE.RESOLUTION_DATE_ASC,
+            SORTING_TYPE.RESOLUTION_DATE_DESC,
+          ];
+
+    return new TaskList({
+      storageId: storageListId,
+      availableSortingTypes: availableSortingTypes,
+    });
   };
 
   static renderSortings = (taskList, section) => {

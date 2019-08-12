@@ -9,8 +9,8 @@ class Task {
     this.id = id;
     this.description = description;
     this.resolved = resolved;
-    this.creationDate = creationDate;
-    this.resolutionDate = resolutionDate;
+    this.creationDate = new Date(creationDate);
+    this.resolutionDate = resolutionDate ? new Date(resolutionDate) : null;
   }
 
   resolve = () => {
