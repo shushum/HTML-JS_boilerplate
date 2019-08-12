@@ -110,3 +110,12 @@
   font-size: 1.2em;
   width: 250px;
 }
+
+.deleteButton {
+  display: none;
+  cursor: pointer;
+}
+
+li.task:hover .deleteButton {
+  display: block;
+}

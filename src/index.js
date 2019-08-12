@@ -13,9 +13,13 @@ const openTasksSelect = document.getElementById('openTasksSortings');
 const resolvedTasksSelect = document.getElementById('resolvedTasksSortings');
 
 const searchBar = document.getElementById('searchBar');
+const mainArea = document.getElementById('mainArea');
 
 const openedTasksList = document.getElementById('openTasksList');
 const resolvedTasksList = document.getElementById('resolvedTasksList');
+
+const openTasksStoraged = 'openTasks';
+const resolvedTasksStoraged = 'resolvedTasks';
 
 const openTasks = new TaskList({
   tasks: [
@@ -218,4 +222,49 @@ resolvedTasksList.addEventListener(
   approveEdit(resolvedTasks, resolvedTasksSection),
 );
 
-//todo: deny of edit, local storage, deliete of note
+const rollBackEdit = event => {
+  const keyName = event.key;
+  if (keyName !== 'Escape') {
+    return;
+  }
+
+  const editArea = mainArea.querySelector('input.description');
+  if (!editArea) {
+    return;
+  }
+
+  const taskElement = editArea.parentElement;
+  taskElement.removeChild(editArea);
+
+  taskElement.querySelector('span.description').style.display = 'block';
+};
+
+document.addEventListener('keyup', rollBackEdit);
+
+const deleteTask = (taskList, deleteSection) => event => {
+  let deleteButton = event.target.closest('button');
+  if (!deleteButton) {
+    return;
+  }
+
+  if (deleteButton.className !== 'deleteButton') {
+    return;
+  }
+
+  if (!deleteSection.contains(deleteButton)) {
+    return;
+  }
+
+  const taskId = event.target.parentElement['data-id'];
+  taskList.removeTask(taskId);
+  TaskList.renderTasks(taskList, deleteSection);
+};
+
+openedTasksList.addEventListener(
+  'click',
+  deleteTask(openTasks, openedTasksSection),
+);
+resolvedTasksList.addEventListener(
+  'click',
+  deleteTask(resolvedTasks, resolvedTasksSection),
+);

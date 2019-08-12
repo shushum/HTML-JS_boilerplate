@@ -66,6 +66,10 @@ class Task {
       dates.appendChild(resolutionDate);
     }
     taskElement.appendChild(dates);
+
+    const deleteButton = document.createElement('button');
+    deleteButton.className = 'deleteButton';
+    taskElement.appendChild(deleteButton);
     tasksSection.appendChild(taskElement);
   };
 }
