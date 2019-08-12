@@ -113,6 +113,9 @@
 
 .deleteButton {
   display: none;
+  background: white;
+  padding: 10px;
+  font-size: 0.8m;
   cursor: pointer;
 }
 

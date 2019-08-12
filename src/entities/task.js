@@ -69,6 +69,7 @@ class Task {
 
     const deleteButton = document.createElement('button');
     deleteButton.className = 'deleteButton';
+    deleteButton.innerHTML = 'Delete';
     taskElement.appendChild(deleteButton);
     tasksSection.appendChild(taskElement);
   };
